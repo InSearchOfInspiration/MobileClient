@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,7 @@ import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
 /**
- * Created by roman on 13.05.17.
+ * Created by roman on 10.05.17.
  */
 
 public class AddOccupationFragment extends Fragment implements AddOccupationMVP.VtPInterface, AdapterView.OnItemSelectedListener{
@@ -40,6 +42,9 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
     @BindView(R.id.seekbar_usefulness_fragment_add) DiscreteSeekBar usefulness_seekbar;
     @BindView(R.id.seekbar_pleasure_fragment_add) DiscreteSeekBar pleasure_seekbar;
     @BindView(R.id.seekbar_fatigue_fragment_add) DiscreteSeekBar fatigue_seekbar;
+    @BindView(R.id.name_sample_fragment_add) TextView nameSample;
+    @BindView(R.id.icon_sample_fragment_add) ImageView iconSample;
+    @BindView(R.id.back_sample_fragment_add) RelativeLayout backSample;
 
     int[] icons = {R.drawable.icon_1, R.drawable.icon_2,
             R.drawable.icon_3, R.drawable.icon_4, R.drawable.icon_5};
@@ -70,11 +75,9 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
 
             }
         });
-
-        icon_spinner.setOnItemSelectedListener(this);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),icons, iconNames);
         icon_spinner.setAdapter(spinnerAdapter);
-
+        icon_spinner.setOnItemSelectedListener(getThis());
         fabDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,12 +95,25 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
                 }
             }
         });
+
+        name_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                nameSample.setText(s);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         return view;
     }
 
     private void animateButton(final ImageButton mFloatingButton) {
-        mFloatingButton.animate().translationXBy(0.5f).translationY(150).translationXBy(-0.9f)
-                .translationX(-150). setDuration(300).setListener(new AnimatorListenerAdapter() {
+        mFloatingButton.animate().translationXBy(0.0f).translationX(-330).
+                translationYBy(0.0f).translationY(-230).setDuration(400).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -109,7 +125,7 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
     private void animateReavel(int cx, int cy, final ImageButton mFloatingButton) {
         float finalRadius = hypo(myView.getWidth(), myView.getHeight());
         SupportAnimator animator =
-                ViewAnimationUtils.createCircularReveal(myView, cx + 100, cy + 1500, 0, finalRadius);
+                ViewAnimationUtils.createCircularReveal(myView, cx + 50, cy + 150, 0, finalRadius);
         animator.addListener(new SupportAnimator.AnimatorListener() {
             @Override
             public void onAnimationStart() {
@@ -135,6 +151,9 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
         return (float) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 
+    public AddOccupationFragment getThis(){
+        return this;
+    }
 
     private void createDialog(){
         ColorPickerDialogBuilder
@@ -155,6 +174,7 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
                         currentColor = selectedColor;
                         color_chooser.setBackgroundColor(currentColor);
                         color_chooser.setText("");
+                        backSample.setBackgroundColor(currentColor);
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -169,9 +189,8 @@ public class AddOccupationFragment extends Fragment implements AddOccupationMVP.
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        LinearLayout linearLayout = (LinearLayout)view;
-        ImageView icon = (ImageView)linearLayout.findViewById(R.id.image_spinner_item);
-        this.icon = icons[position];
+        iconSample.setImageDrawable(getResources().getDrawable(icons[position]));
+        getThis().icon = icons[position];
     }
 
     @Override
