@@ -5,4 +5,10 @@ package com.golub.golubroman.sentryapp.Occupations.AddOccupation;
  */
 
 public class AddOccupationMVP {
+    interface PInterface{
+
+    }
+
+    interface VtPInterface{
+    }
 }
