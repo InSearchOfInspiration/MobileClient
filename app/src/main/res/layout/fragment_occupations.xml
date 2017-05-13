@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_fragment_occupations"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/transparentGray"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        android:nestedScrollingEnabled="true"
+        app:queryHint="search occupations..."
+        app:queryBackground="@android:color/transparent"
+        app:iconifiedByDefault="false"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_fragment_occupations"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fab_fragment_occupations"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:fabSize="normal" />
+</RelativeLayout>
